@@ -42,6 +42,120 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 ul { list-style: none; }
 p { text-wrap: pretty; }
 
+
+/* ── MAINEXAMPLE ── */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--p:#7F77DD;--pl:#EEEDFE;--pm:#AFA9EC;--pg:#534AB7;--gray:#F1EFE8;--border:rgba(0,0,0,0.08);--text:var(--color-text-primary);--sub:var(--color-text-secondary);--bg:var(--color-background-primary);--bg2:var(--color-background-secondary)}
+.stage{width:100%;height:460px;position:relative;overflow:hidden;border-radius:16px;border:0.5px solid var(--color-border-tertiary);background:var(--bg2)}
+.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s}
+.scene.active{opacity:1;pointer-events:auto}
+
+.dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--pm);opacity:0.3;transition:opacity 0.3s,background 0.3s}
+.dot.active{opacity:1;background:var(--pg)}
+
+/* Scene 1 - Notion window */
+.notion-win{width:88%;max-width:560px;background:var(--bg);border-radius:12px;border:0.5px solid var(--border);overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,0.07)}
+.win-bar{height:32px;background:var(--bg2);display:flex;align-items:center;padding:0 12px;gap:6px;border-bottom:0.5px solid var(--border)}
+.win-dot{width:10px;height:10px;border-radius:50%}
+.win-sidebar{width:130px;border-right:0.5px solid var(--border);padding:10px 0;flex-shrink:0}
+.win-content{flex:1;padding:14px;overflow:hidden}
+.sidebar-item{padding:5px 10px;font-size:11px;color:var(--sub);display:flex;align-items:center;gap:6px;cursor:pointer;border-radius:4px;margin:1px 4px}
+.sidebar-item.hl{background:var(--pl);color:var(--pg)}
+.si-icon{width:14px;height:14px;border-radius:3px;background:var(--pm);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px}
+.win-body{display:flex;min-height:200px}
+
+/* Goal management content */
+.goal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.goal-title{font-size:13px;font-weight:600;color:var(--text)}
+.goal-badge{font-size:9px;background:var(--pl);color:var(--pg);padding:2px 7px;border-radius:10px;font-weight:500}
+.team-section{margin-bottom:8px}
+.team-label{font-size:9px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.team-emoji{font-size:10px}
+.goal-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)}
+.goal-row:last-child{border-bottom:none}
+.goal-name{font-size:10px;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-bar-wrap{width:60px;height:5px;background:var(--pl);border-radius:3px;overflow:hidden;flex-shrink:0}
+.goal-bar-fill{height:100%;border-radius:3px;transition:width 0.8s ease}
+.goal-pct{font-size:9px;color:var(--sub);width:26px;text-align:right;flex-shrink:0}
+.status-chip{font-size:8px;padding:2px 5px;border-radius:6px;flex-shrink:0;font-weight:500}
+.chip-green{background:#EAF3DE;color:#3B6D11}
+.chip-amber{background:#FAEEDA;color:#854F0B}
+.chip-blue{background:#E6F1FB;color:#185FA5}
+.chip-red{background:#FCEBEB;color:#A32D2D}
+.summary-row{display:flex;gap:6px;margin-bottom:10px}
+.sum-card{flex:1;background:var(--bg2);border-radius:7px;padding:6px 8px}
+.sum-num{font-size:15px;font-weight:600;color:var(--text)}
+.sum-label{font-size:8px;color:var(--sub);margin-top:1px}
+
+/* Scene 2 - Click & data popup */
+.s2-base{width:88%;max-width:520px;position:relative}
+.s2-win{background:var(--bg);border-radius:12px;border:0.5px solid var(--border);overflow:hidden}
+.s2-header{background:var(--bg2);padding:10px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px;font-size:11px;color:var(--sub)}
+.s2-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px}
+.s2-card{background:var(--bg2);border-radius:8px;padding:8px 10px}
+.s2-num{font-size:18px;font-weight:500;color:var(--text)}
+.s2-label{font-size:9px;color:var(--sub);margin-top:2px}
+.s2-chart-row{padding:0 12px 12px;display:flex;gap:4px;align-items:flex-end;height:60px}
+.s2-bar{flex:1;border-radius:3px 3px 0 0;background:var(--pm);transition:height 0.5s}
+.s2-bar.hl{background:var(--pg)}
+.popup{position:absolute;background:var(--bg);border-radius:10px;border:0.5px solid var(--border);padding:12px 14px;box-shadow:0 4px 20px rgba(0,0,0,0.1);min-width:180px;transform:scale(0.6);opacity:0;transition:transform 0.35s cubic-bezier(0.17,0.89,0.32,1.27),opacity 0.25s;pointer-events:none}
+.popup.show{transform:scale(1);opacity:1}
+.popup.pop1{top:-60px;right:-20px}
+.popup.pop2{bottom:-50px;left:-20px}
+.popup-num{font-size:22px;font-weight:500;color:var(--text)}
+.popup-label{font-size:10px;color:var(--sub)}
+.spark{display:flex;gap:2px;align-items:flex-end;height:28px;margin-top:6px}
+.sp-bar{width:6px;border-radius:2px 2px 0 0;background:var(--pm)}
+.sp-bar.hl{background:var(--pg)}
+
+/* Scene 3 - Automation */
+.s3-wrap{width:88%;max-width:500px}
+.btn-zone{text-align:center;margin-bottom:16px;position:relative;display:inline-block;left:50%;transform:translateX(-50%)}
+.auto-btn{background:var(--pg);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-size:13px;font-weight:500;cursor:pointer;position:relative;overflow:hidden;transition:transform 0.15s}
+.auto-btn:active{transform:scale(0.95)}
+.flow-track{display:flex;align-items:center;justify-content:center;gap:0;margin:0 0 14px;position:relative}
+.flow-node{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg);border:0.5px solid var(--border);flex-shrink:0;position:relative;transition:transform 0.3s,box-shadow 0.3s}
+.flow-node.pulse{animation:nodePulse 0.5s ease}
+@keyframes nodePulse{0%{transform:scale(1)}50%{transform:scale(1.2);box-shadow:0 0 0 6px rgba(127,119,221,0.2)}100%{transform:scale(1)}}
+.flow-arrow{width:28px;height:2px;background:var(--border);position:relative;flex-shrink:0}
+.flow-arrow-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--pg);border-radius:1px;transition:width 0.4s}
+.result-card{background:var(--bg);border-radius:10px;border:0.5px solid var(--border);padding:12px 14px;transform:translateY(12px);opacity:0;transition:transform 0.4s cubic-bezier(0.17,0.89,0.32,1.27),opacity 0.3s}
+.result-card.show{transform:translateY(0);opacity:1}
+.result-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.result-icon{width:28px;height:28px;border-radius:7px;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:14px}
+.result-rows{display:flex;flex-direction:column;gap:4px}
+.result-row{height:6px;border-radius:3px;background:var(--pl)}
+.result-row.r1{width:80%}
+.result-row.r2{width:60%}
+.result-row.r3{width:70%}
+.result-row.short{width:40%}
+.check-badge{width:18px;height:18px;border-radius:50%;background:#EAF3DE;color:#3B6D11;font-size:10px;display:flex;align-items:center;justify-content:center;margin-left:auto}
+
+/* Scene 4 - Notification */
+.s4-phone{width:260px;background:var(--bg2);border-radius:24px;padding:20px 16px;border:0.5px solid var(--border)}
+.s4-status{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:0 4px}
+.s4-time{font-size:11px;font-weight:500;color:var(--text)}
+.s4-icons{display:flex;gap:4px;align-items:center}
+.s4-icon-dot{width:8px;height:8px;border-radius:50%;background:var(--sub);opacity:0.5}
+.notif{background:var(--bg);border-radius:14px;padding:12px 14px;transform:translateY(-60px);opacity:0;transition:transform 0.5s cubic-bezier(0.17,0.89,0.32,1.27),opacity 0.3s}
+.notif.show{transform:translateY(0);opacity:1}
+.notif-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.notif-icon{width:26px;height:26px;border-radius:7px;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:13px}
+.notif-app{font-size:10px;color:var(--sub)}
+.notif-time{font-size:9px;color:var(--sub);margin-left:auto}
+.notif-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px}
+.notif-body{font-size:10px;color:var(--sub);line-height:1.4}
+.notif-attach{margin-top:8px;background:var(--bg2);border-radius:8px;padding:7px 10px;display:flex;align-items:center;gap:7px}
+.na-icon{font-size:14px}
+.na-bar{flex:1;display:flex;flex-direction:column;gap:3px}
+.na-line{height:4px;border-radius:2px;background:var(--pm)}
+.na-line.s{width:60%}
+.auto-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:10px;background:var(--pl);font-size:9px;font-weight:500;color:var(--pg);margin-top:7px}
+.ping-dot{width:5px;height:5px;border-radius:50%;background:var(--pg);animation:pingAnim 1s infinite}
+@keyframes pingAnim{0%,100%{opacity:1}50%{opacity:0.3}}
+
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--p3); border-radius: 3px; }
@@ -558,30 +672,159 @@ function Logo({ size = 32 }) {
 
 /* ──────────────── HERO VISUAL ──────────────── */
 function HeroVisual() {
-  const nodes = [
-  { emoji: '🗂️', label: '업무 관리', style: { top: '12%', left: '10%', animationDelay: '0s' } },
-  { emoji: '👥', label: '인사·HR', style: { top: '8%', right: '14%', animationDelay: '.4s' } },
-  { emoji: '💰', label: '매출·비용', style: { top: '38%', left: '4%', animationDelay: '.8s' } },
-  { emoji: '🤝', label: '채용', style: { top: '35%', right: '6%', animationDelay: '1.2s' } },
-  { emoji: '📣', label: '마케팅', style: { bottom: '20%', left: '8%', animationDelay: '1.6s' } },
-  { emoji: '📊', label: '성과 지표', style: { bottom: '16%', right: '12%', animationDelay: '2s' } },
-  { emoji: '⚡', label: '자동화', style: { bottom: '38%', left: '32%', animationDelay: '.6s' } }];
+  const [cur, setCur] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const timerRef = useRef(null);
+
+  const playS2 = useCallback(() => {
+    const pop1 = document.getElementById('pop1');
+    const pop2 = document.getElementById('pop2');
+    if(pop1) pop1.classList.remove('show');
+    if(pop2) pop2.classList.remove('show');
+    setTimeout(() => pop1?.classList.add('show'), 600);
+    setTimeout(() => pop2?.classList.add('show'), 1400);
+  }, []);
+
+  const runFlow = useCallback(() => {
+    const resultCard = document.getElementById('resultCard');
+    if(resultCard) resultCard.classList.remove('show');
+    for(let i=0; i<4; i++) {
+      const fa = document.getElementById('fa'+i);
+      const fn = document.getElementById('fn'+i);
+      if(fa) fa.style.width = '0%';
+      if(fn) fn.classList.remove('pulse');
+    }
+    
+    const delays = [0, 500, 1000, 1500, 2000];
+    delays.forEach((d, i) => {
+      setTimeout(() => {
+        document.getElementById('fn'+i)?.classList.add('pulse');
+        if(i < 4) document.getElementById('fa'+i).style.width = '100%';
+      }, d);
+    });
+    setTimeout(() => document.getElementById('resultCard')?.classList.add('show'), 2500);
+  }, []);
+
+  const playS4 = useCallback(() => {
+    const n1 = document.getElementById('notif1');
+    const n2 = document.getElementById('notif2');
+    if(n1) n1.classList.remove('show');
+    if(n2) n2.classList.remove('show');
+    setTimeout(() => n1?.classList.add('show'), 400);
+    setTimeout(() => n2?.classList.add('show'), 1200);
+  }, []);
+
+  useEffect(() => {
+    if (cur === 1) playS2();
+    if (cur === 2) runFlow();
+    if (cur === 3) playS4();
+  }, [cur, playS2, runFlow, playS4]);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      if (!paused) setCur(prev => (prev + 1) % 4);
+    }, 4500);
+    return () => clearInterval(timerRef.current);
+  }, [paused]);
 
   return (
-    <div className="hero-visual">
-      <div className="hv-bg" style={{ width: "450px", backgroundPosition: "right center" }}>
-        <div className="hv-center">⚙️</div>
-        {nodes.map((n, i) =>
-        <div key={n.label} className="hv-node" style={{ ...n.style, animationDelay: n.style.animationDelay }}>
-            <span className="hv-node-icon">{n.emoji}</span>
-            <span>{n.label}</span>
+    <div className="hero-visual" style={{height:'450px'}}>
+      <div className="stage">
+        {/* Scene 1: Goal management */}
+        <div className={`scene ${cur === 0 ? 'active' : ''}`}>
+          <div className="notion-win">
+            <div className="win-bar">
+              <div className="win-dot" style={{background:'#FF5F57'}}></div>
+              <div className="win-dot" style={{background:'#FEBC2E'}}></div>
+              <div className="win-dot" style={{background:'#28C840'}}></div>
+            </div>
+            <div className="win-body">
+              <div className="win-sidebar">
+                <div className="sidebar-item">🏠 홈</div>
+                <div className="sidebar-item hl">🎯 목표</div>
+                <div className="sidebar-item">👥 조직</div>
+                <div className="sidebar-item">📋 업무</div>
+              </div>
+              <div className="win-content">
+                <div className="goal-header"><div className="goal-title">팀별 목표 현황</div></div>
+                <div className="summary-row">
+                  <div className="sum-card"><div className="sum-num">76%</div><div className="sum-label">달성률</div></div>
+                  <div className="sum-card"><div className="sum-num">11</div><div className="sum-label">정상</div></div>
+                </div>
+                <div className="goal-row">
+                  <span>영업 매출</span>
+                  <div className="goal-bar-wrap"><div className="goal-bar-fill" style={{width: cur===0?'88%':'0%', background:'var(--p)'}}></div></div>
+                  <span>88%</span>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        </div>
+
+        {/* Scene 2: Performance Metrics */}
+        <div className={`scene ${cur === 1 ? 'active' : ''}`}>
+          <div className="s2-base">
+            <div className="notion-win" style={{height:'240px', padding:'20px'}}>
+              <h4 style={{marginBottom:'15px'}}>📊 성과 대시보드</h4>
+              <div className="summary-row">
+                <div className="sum-card">
+                  <div className="sum-num" id="n1">₩4.2억</div>
+                  <div className="sum-label">월 매출</div>
+                </div>
+              </div>
+            </div>
+            <div className="popup pop1" id="pop1">
+              <div style={{fontSize:'12px', fontWeight:800}}>매출 분석</div>
+              <div style={{fontSize:'18px', color:'var(--p)', fontWeight:800}}>▲ 12% 상승</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scene 3: Automation */}
+        <div className={`scene ${cur === 2 ? 'active' : ''}`}>
+          <div style={{textAlign:'center', width:'100%'}}>
+            <button className="nav-cta" style={{marginBottom:'30px'}} onClick={() => runFlow()}>⚡ 자동화 실행</button>
+            <div className="flow-track">
+              <div className="flow-node" id="fn0">📋</div>
+              <div className="flow-arrow"><div className="flow-arrow-fill" id="fa0"></div></div>
+              <div className="flow-node" id="fn1">🔄</div>
+              <div className="flow-arrow"><div className="flow-arrow-fill" id="fa1"></div></div>
+              <div className="flow-node" id="fn2">✉️</div>
+              <div className="flow-arrow"><div className="flow-arrow-fill" id="fa2"></div></div>
+              <div className="flow-node" id="fn3">📊</div>
+              <div className="flow-arrow"><div className="flow-arrow-fill" id="fa3"></div></div>
+              <div className="flow-node" id="fn4">✅</div>
+            </div>
+            <div id="resultCard" className="popup" style={{position:'relative', marginTop:'20px', opacity:0}}>
+              ✅ 보고서 자동 생성 완료
+            </div>
+          </div>
+        </div>
+
+        {/* Scene 4: Notification */}
+        <div className={`scene ${cur === 3 ? 'active' : ''}`}>
+          <div className="s4-phone">
+            <div style={{color:'#fff', fontSize:'12px', marginBottom:'20px'}}>09:41</div>
+            <div className="notif" id="notif1">
+              <div style={{fontWeight:800, fontSize:'12px'}}>마케팅 보고서 도착 ✨</div>
+              <div style={{fontSize:'11px', color:'#666'}}>자동으로 생성된 주간 리포트입니다.</div>
+            </div>
+            <div className="notif" id="notif2">
+              <div style={{fontWeight:800, fontSize:'12px'}}>팀 달성률 업데이트 📋</div>
+              <div style={{fontSize:'11px', color:'#666'}}>현재 달성률 87% 돌파</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="dots">
+          {[0,1,2,3].map(i => (
+            <div key={i} className={`dot ${cur === i ? 'active' : ''}`} onClick={() => setCur(i)}></div>
+          ))}
+        </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
-
 /* ──────────────── NAV ──────────────── */
 function Nav({ route, go }) {
   const links = [
